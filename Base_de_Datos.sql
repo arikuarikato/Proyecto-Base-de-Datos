@@ -191,7 +191,6 @@ INSERT INTO ProductoCategoria (id_producto, id_categoria) VALUES
 (2, 2); -- Producto 2 en Categoría 2
 
 
-
 ----Consulta de los datos 
 
 --- Seleccionar todos los datos de Usuarios
@@ -247,6 +246,86 @@ SELECT * FROM CategoriasProductos;
 --- Seleccionar todos los datos de la relación Producto-Categoría
 SELECT * FROM ProductoCategoria;
 
+------------------------------------------8. Realizar un total de 10 script de eliminación y actualización de datos, (update, delete)con condiciones, sobre las entidades del proyecto,
+----------------------------------------- demostrando el dominio de elementos DML.
+
+------------------- Actualizar el nombre de un cliente
+UPDATE Clientes
+SET nombre = 'Nuevo Nombre'
+WHERE cedula = '303030303';
+
+------------------- Eliminar un cliente y sus direcciones asociadas
+
+DELETE FROM DireccionesClientes
+WHERE cedula_cliente = '404040404';
+
+DELETE FROM ContactosClientes
+WHERE cedula_cliente = '404040404';
+
+DELETE FROM Clientes
+WHERE cedula = '404040404';
+
+------------------- Actualizar el teléfono de un proveedor:
+
+UPDATE ContactosProveedores
+SET telefono = '1111-1111'
+WHERE id_proveedor = 1;
+
+UPDATE Proveedores
+SET telefono = '1111-1111'
+WHERE id = 1;
+
+
+------------------- Eliminar un producto y sus detalles de venta asociados
+
+DELETE FROM DetallesVenta
+WHERE id_producto = 2;
+
+DELETE FROM Productos
+WHERE id_producto = 2;
+
+------------------- Actualizar el correo electrónico de un usuario
+
+UPDATE ContactosUsuarios
+SET correo = 'nuevo_correo@example.com'
+WHERE cedula_usuario = '101010101';
+
+UPDATE Usuarios
+SET correo = 'nuevo_correo@example.com'
+WHERE cedula = '101010101';
+
+-------------------  Eliminar un contacto de proveedor específico
+
+DELETE FROM ContactosProveedores
+WHERE id_contacto = 1;
+
+------------------- Actualizar la descripción de un proveedor:
+
+UPDATE Proveedores
+SET descripcion = 'Nueva descripción'
+WHERE id = 1;
+
+------------------- Eliminar una categoría de productos y sus relaciones asociadas:
+
+DELETE FROM ProductoCategoria
+WHERE id_categoria = 1;
+
+DELETE FROM CategoriasProductos
+WHERE id_categoria = 1;
+
+-------------------  Actualizar la dirección de un cliente:
+
+UPDATE DireccionesClientes
+SET direccion = 'Nueva Dirección'
+WHERE id_direccion = 1;
+
+------------------- Eliminar una venta y sus detalles asociados:
+
+DELETE FROM DetallesVenta
+WHERE numero_venta = 1;
+
+DELETE FROM Ventas
+WHERE numero_venta = 1;
 
 
 
