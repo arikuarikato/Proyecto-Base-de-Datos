@@ -328,4 +328,67 @@ DELETE FROM Ventas
 WHERE numero_venta = 1;
 
 
+-----------------------9. Debe crear un mínimo de consultas para reportes en los cuales se demuestre el uso de
+-----------------------joins, condiciones y funciones de agregación, (sentencias vistas en clase). 
+-------------------------10. Cada una de las consultas anteriores debe está formada por un mínimo de 3 entidades, las
+-------------------------consultas con uso de menos entidades no serán consideradas calificables
 
+
+
+---------------Cantidad de productos vendidos por cliente:
+SELECT c.nombre AS Nombre_Cliente, COUNT(dv.id_detalle) AS Cantidad_Productos_Vendidos
+FROM Clientes c
+JOIN Ventas v ON c.cedula = v.cedula_cliente
+JOIN DetallesVenta dv ON v.numero_venta = dv.numero_venta
+GROUP BY c.nombre;
+
+
+------------------Total de ventas mensuales por usuario:
+SELECT MONTH(v.fecha) AS Mes, YEAR(v.fecha) AS Año, u.nombre AS Nombre_Usuario, SUM(v.monto) AS Total_Ventas
+FROM Ventas v
+JOIN Usuarios u ON v.cedula_usuario = u.cedula
+GROUP BY MONTH(v.fecha), YEAR(v.fecha), u.nombre;
+
+
+------------------Promedio de precio de los productos por categoría:
+SELECT cp.nombre AS Categoria, AVG(p.precio) AS Promedio_Precio
+FROM CategoriasProductos cp
+JOIN ProductoCategoria pc ON cp.id_categoria = pc.id_categoria
+JOIN Productos p ON pc.id_producto = p.id_producto
+GROUP BY cp.nombre;
+
+------------------Total de ventas por marca de producto:
+SELECT p.marca AS Marca, SUM(dv.cantidad) AS Total_Vendido
+FROM Productos p
+JOIN DetallesVenta dv ON p.id_producto = dv.id_producto
+GROUP BY p.marca;
+
+
+--------------------Total de ventas realizadas en efectivo por cliente:
+
+SELECT c.nombre AS Nombre_Cliente, SUM(v.monto) AS Total_Ventas_Efectivo
+FROM Clientes c
+JOIN Ventas v ON c.cedula = v.cedula_cliente
+WHERE v.medio_pago = 'Efectivo'
+GROUP BY c.nombre;
+
+------------------Precio máximo de los productos por marca:
+SELECT p.marca AS Marca, MAX(p.precio) AS Precio_Maximo
+FROM Productos p
+GROUP BY p.marca;
+
+---------------Cantidad de productos vendidos por categoría:
+
+SELECT cp.nombre AS Categoria, COUNT(dv.id_detalle) AS Cantidad_Productos_Vendidos
+FROM CategoriasProductos cp
+JOIN ProductoCategoria pc ON cp.id_categoria = pc.id_categoria
+JOIN Productos p ON pc.id_producto = p.id_producto
+JOIN DetallesVenta dv ON p.id_producto = dv.id_producto
+GROUP BY cp.nombre;
+
+---------------------Total de ventas por cliente y medio de pago
+
+SELECT c.nombre AS Cliente, v.medio_pago AS Medio_de_Pago, SUM(v.monto) AS Total_Ventas
+FROM Clientes c
+JOIN Ventas v ON c.cedula = v.cedula_cliente
+GROUP BY c.nombre, v.medio_pago;
